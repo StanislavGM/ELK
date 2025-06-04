@@ -1,0 +1,3 @@
+{"@version":"1","message":"My new message","@timestamp":"2025-05-27T15:59:41.201483161Z","event":{"original":"My new message"},"host":{"hostname":"LogStash"}}
+{"@version":"1","message":"Hello","@timestamp":"2025-05-27T15:59:43.180915358Z","event":{"original":"Hello"},"host":{"hostname":"LogStash"}}
+{"@version":"1","message":"May 27.05.2025","@timestamp":"2025-05-27T15:59:52.337569175Z","event":{"original":"May 27.05.2025"},"host":{"hostname":"LogStash"}}

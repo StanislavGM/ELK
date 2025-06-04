@@ -1,0 +1,2 @@
+{ "index" : { "_index" : "advertising" } }
+{ "TV": 17.5, "Radio": 37.5, "Newspaper": 42.2, "Sales": 7.7 }

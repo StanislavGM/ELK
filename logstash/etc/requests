@@ -1,0 +1,1 @@
+curl --cacert http_ca.crt -X POST https://172.31.31.246:9200/_bulk?pretty -H "Authorization: ApiKey czdsUmVaWUJvZXpNOHl5UFJJMzE6YlFGWTU3cWp0bkY2YmRLbjV1R2FhUQ==" -H "Content-Type: application/json" --data-binary @import.json
