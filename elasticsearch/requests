@@ -7,3 +7,7 @@
 # Certs
 - openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout elastic_priv.key -out elastic.crt
 - openssl x509 -fingerprint -sha256 -noout -in certs/http_ca.crt
+# Commands Logstash
+/usr/share/logstash/bin/logstash-plugin install logstash-filter-range
+logstash=/usr/share/logstash/bin/logstash
+$logstash -f /home/cloud_user/configs
