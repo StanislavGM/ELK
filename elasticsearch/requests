@@ -1,0 +1,9 @@
+- curl --cacert http_ca.crt -X POST https://172.31.31.246:9200/_bulk?pretty -H "Authorization: ApiKey czdsUmVaWUJvZXpNOHl5UFJJMzE6YlFGWTU3cWp0bkY2YmRLbjV1R2FhUQ==" -H "Content-Type: application/json" --data-binary @import.json
+- curl --request GET 'http://172.31.31.78:5601/api/spaces/space?' --header "Authorization: ApiKey czdsUmVaWUJvZXpNOHl5UFJJMzE6YlFGWTU3cWp0bkY2YmRLbjV1R2FhUQ=="
+- curl -k -H "Authorization: ApiKey czdsUmVaWUJvZXpNOHl5UFJJMzE6YlFGWTU3cWp0bkY2YmRLbjV1R2FhUQ==" https://localhost:9200/_cluster/health
+- curl --cacert http_ca.crt http://172.31.31.246:9300/_cluster/health?pretty -H "Authorization: ApiKey czdsUmVaWUJvZXpNOHl5UFJJMzE6YlFGWTU3cWp0bkY2YmRLbjV1R2FhUQ=="
+- curl -k -H "Authorization: ApiKey czdsUmVaWUJvZXpNOHl5UFJJMzE6YlFGWTU3cWp0bkY2YmRLbjV1R2FhUQ==" https://localhost:9200/_cluster/allocation/explain?filter_path=index,node_allocation_decisions.node_name,node_allocation_decisions.deciders.*
+- curl -k -u elastic:EMJPQByQW0eXRiyPLXr+ "https://localhost:9200/_cluster/health?&pretty"
+# Certs
+- openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout elastic_priv.key -out elastic.crt
+- openssl x509 -fingerprint -sha256 -noout -in certs/http_ca.crt
