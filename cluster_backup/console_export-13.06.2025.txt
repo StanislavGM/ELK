@@ -1,0 +1,468 @@
+# Welcome to the Dev Tools Console!
+#
+# You can use Console to explore the Elasticsearch API. See the Elasticsearch API reference to learn more:
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html
+#
+# Here are a few examples to get you started.
+
+
+# Create an index
+HEAD /my-index2
+
+HEAD /my-product
+
+PUT /my_product/_doc/1
+{
+    "name": "product 1",
+    "quantity": 10,
+    "price": 1.5
+}
+HEAD /my_product/_doc/1
+
+PUT /product-0001
+{
+    "mappings": {
+        "properties": {
+            "quantity": { "type": "integer"},
+            "price": { "type": "float" },
+            "name": { "type": "text"}
+        }
+    }
+}
+
+GET /product-0001/
+
+POST /product-0001/_doc
+{
+    "name": "product 2",
+    "price": 2.8,
+    "quantity": 10.89
+}
+
+POST /product/_bulk
+{ "index": { "_id": "10"} }
+{ "name": "product 10", "quantity": 10, "price": 2.5 }
+{ "index": { "_id": 11} }
+{ "name": "product 11", "quantity": 11, "price": 2.8 }
+{ "index": { "_id": 12} }
+{ "name": "product 12", "quantity": 12, "price": 1.5 }
+
+GET /product/_search?size=100
+
+POST /product/_bulk
+{ "index": {} }
+{ "name": "product 13", "quantity": 13, "price": 2.5 }
+{ "index": {} }
+{ "name": "product 14", "quantity": 14, "price": 2.8 }
+{ "index": {} }
+{ "name": "product 15", "quantity": 15, "price": 1.5 }
+
+POST /advertising/_search
+
+GET /advertising/_search?from=2&size=4
+DELETE /advertising/_doc/ocWse5YBEUiTNfP2oCqK
+
+POST /products/_search
+{
+    "query": {
+        "range": {
+          "Internal ID": {
+            "gte": 29,
+            "lte": 50
+          }
+        }
+    }
+}
+
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"term": {"Size": {"value":"L"}}},
+              { "range": {"Stock": {"gte": 500}}}
+            ]
+        }
+    }
+}
+
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"term": {"Color": {"value":"PaleGreen"}}},
+              { "range": {"Stock": {"gte": 500}}}
+            ]
+        }
+    }
+}
+
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"match": {"Category": "Health & Wellness"}},
+              {"range": {"Price": {"gte": 100, "lte": 2000}}}
+            ]
+        }
+    }
+}
+
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"match": {"Brand": "Russo-West"} },
+              {"range": {"Internal ID": {"gte": 10}}}
+            ]
+        }
+    }
+}
+
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"match": {"Availability": "in_stock"}},
+              {"range": {
+                "Price": {
+                  "gte": 300,
+                  "lte": 500
+                }
+              }}
+            ]
+        }
+    }
+}
+
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"match": {"Availability": "in_stock"}},
+              {"bool": {
+                "should": [
+                  {"range": {
+                    "Price": {
+                      "gt": 250
+                      }
+                    }
+                  },
+                  {"range": {
+                    "Price": {
+                      "lt": 1000
+                   }
+                  }
+                }
+                ]
+              }}
+            ]
+        }
+    }
+}
+
+GET /products/_search?size=100
+
+POST /products/_search
+{
+    "sort": [
+      {
+        "Price": {
+          "order": "desc"
+        }
+      }
+    ],
+    "query": {
+        "match": {"Category": "Automotive"}
+    },
+    "size": 5
+}
+
+POST /products/_search
+{
+    "sort": [
+      {
+        "Price": {
+          "order": "desc"
+        }
+      }
+    ],
+    "size": 5,
+    "query": {
+        "bool": {
+            "must": [
+              {"match": {"Size": "S"}},
+              {"range": {"Price": {"gt": 300, "lt": 800}}}
+            ]
+        }
+    }
+}
+POST /products/_search
+POST /products/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+              {"match_phrase": {"Availability": "limited_stock"}},
+              {"match": {
+                "Size": "L"
+              }}
+            ]
+        }
+    }
+}
+
+POST /products/_search
+{
+    "aggs": {
+      "totalcount": {
+        "terms": {
+            "field": "Availability",
+            "size": 100
+        }
+      }
+    },
+    "size": 0
+}
+POST /products/_search
+POST /products/_search
+{
+    "aggs": {
+      "totalcount": {
+        "terms": {
+          "field": "Availability.keyword",
+          "size": 100
+        }
+      },
+      "aggs": {
+        "new-aggr": {
+           "terms": {
+             "field": "Color.keyword",
+             "size": 100
+           }
+        }
+      }
+    },
+    "size": 0
+}
+
+
+POST _sql
+{
+    "query": "SELECT Size, Color, Category, Brand, Price FROM products ORDER BY Price desc LIMIT 5"
+}
+
+POST _sql?format=txt
+{
+    "query": "SELECT Size, Color, Category, Brand, Price FROM products ORDER BY Price desc LIMIT 5"
+}
+
+POST _sql?format=txt
+{
+    "query": "SELECT Size, sum(Price) as total_gain FROM products GROUP BY Size"
+}
+
+
+GET _search?size=120
+
+PUT /cities
+{
+    "mappings": {
+        "properties": {
+            "locations": {
+                "type": "geo_point"
+            },
+            "city": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+
+POST /cities/_bulk?refresh
+{"index": {"_id": 1}}
+{"location": "-6.287723277545295, 106.84510553683276", "city": "JaKarta"}
+{"index": {"_id": 2}}
+{"location": "1.3572430576463768, 103.86209395557243", "city": "singapore"}
+
+get /blogs/_search
+{
+    "query": {
+        "terms": {
+            "user": ["tetra", "prashant"],
+            "boost": "2.0"
+          }
+        }
+    }
+
+
+
+get /blogs/_search
+{
+    "query": {
+        "range": {
+            "date": {
+                "gte": 10,
+                "lte": 20,
+                "boost": 2
+            }
+        }
+    }
+}
+
+GET /blogs/_search
+{
+    "query": {
+        "match_all": {}
+    }
+}
+
+get /blogs/_search
+{
+    "query": {
+        "fuzzy": {
+          "user": "tetra"
+        }
+    }
+}
+
+get /blogs/_search
+{
+    "query": {
+        "match": {
+          "user": "prashant tetra"
+        }
+    }
+}
+
+GET /blogs/_search
+{
+    "query": {
+        "multi_match": {
+          "query": "prashant why",
+          "fields": ["user", "body"]
+        }
+    }
+}
+
+get /_cluster/health
+get _cat/master/?v
+
+GET /products/_search
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "Brand": {
+          "query": "Lawson, Keller and Winters",
+          "operator": "and"
+          }
+        }
+    }
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "Brand": {
+          "query": "Lawon, Keller and Winters",
+          "operator": "or",
+          "fuzziness": 1
+          }
+        }
+    }
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "Brand": {
+          "query": "Lawn, Keller and Winters",
+          "operator": "or",
+          "fuzziness": 2
+          }
+        }
+    }
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "Brand": {
+          "query": "Lawn, Keller and Winters",
+          "operator": "or",
+          "fuzziness": "auto"
+          }
+        }
+    }
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "Size": {
+          "query": "S L",
+          "operator": "or"
+          }
+        }
+    }
+}
+
+
+DELETE /actor
+get /actor/_search
+PUT /actor
+{
+    "mappings": {
+        "properties": {
+                "name": {
+                    "type": "keyword"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+
+
+post /actor/_doc/1
+{
+    "name": "ABC",
+    "year": 2016
+}
+get _search
+{
+    "query": {
+        "match": {
+          "name": "ABC"
+        }
+    }
+}
+
+PUT /_snapshot/aws/snapshot_11.06.2025?wait_for_completion=true
+{
+  "include_global_state": true
+}
+
+get _cat/snapshots
+
+get _cat/nodes
+
+PUT /_snapshot/aws_backup
+{
+  "type": "fs",
+  "settings": {
+    "location": "/mnt/backup/aws_backup",
+    "compress": true
+  }
+}
