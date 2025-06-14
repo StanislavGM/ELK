@@ -451,6 +451,7 @@ get _search
 
 PUT /_snapshot/aws/snapshot_11.06.2025?wait_for_completion=true
 {
+  "indices": "*",
   "include_global_state": true
 }
 
@@ -466,3 +467,5 @@ PUT /_snapshot/aws_backup
     "compress": true
   }
 }
+
+POST _nodes/reload_secure_settings
