@@ -1,0 +1,4 @@
+product,stock,price,is_true
+product1,10,1.2,true
+product2,4,2.0,false
+product3,7,3.5,true

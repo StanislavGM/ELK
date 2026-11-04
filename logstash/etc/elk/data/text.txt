@@ -1,0 +1,3 @@
+product1,10,9.9
+product2,9,9.8
+product3,8,9.7
